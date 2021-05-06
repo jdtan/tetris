@@ -2,11 +2,12 @@ import React from 'react';
 import Display from './Display';
 import Start from './Start';
 import Matrix from "./Matrix";
+import { createMatrix } from '../Structure';
 
 const Game = () => {
   return (
     <div>
-      <Matrix />
+      <Matrix matrix = { createMatrix() } />
       <aside>
         <div>
           <Display text = "Score" />
