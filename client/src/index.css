@@ -1,3 +1,13 @@
 body {
   margin: 0;
 }
+
+/* @font-face {
+  font-family: 'Poppins';
+  src: url('font/Poppins-Medium.ttf') format('ttf');
+} */
+
+@font-face {
+  font-family: 'Quicksand';
+  src: url('font/Quicksand-Light.ttf') format('ttf');
+}

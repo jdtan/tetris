@@ -3,7 +3,7 @@ import styled from 'styled-components';
 export const StyledGameComponent = styled.div`
   width: 100vw;
   height: 100vh;
-  background: #313842;
+  background: #8fabc1;
   background-size: cover;
   overflow: hidden;
 `;

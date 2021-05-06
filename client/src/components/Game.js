@@ -12,9 +12,9 @@ const Game = () => {
         <Matrix matrix={createMatrix()} />
         <aside>
           <div>
-            <Display text="Score" />
-            <Display text="Rows" />
-            <Display text="Level" />
+            <Display text="SCORE" />
+            <Display text="ROWS" />
+            <Display text="LEVEL" />
           </div>
           <Start />
         </aside>
