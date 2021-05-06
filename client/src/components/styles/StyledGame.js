@@ -3,7 +3,7 @@ import styled from 'styled-components';
 export const StyledGameComponent = styled.div`
   width: 100vw;
   height: 100vh;
-  background: #d9ffed;
+  background: #313842;
   background-size: cover;
   overflow: hidden;
 `;
@@ -13,7 +13,7 @@ export const StyledGame = styled.div`
   align-items: flex-start;
   padding: 40px;
   margin: 0 auto;
-  max-width: 1000px;
+  max-width: 900px;
 
   aside {
     width: 100%;

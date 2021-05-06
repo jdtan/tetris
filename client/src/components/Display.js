@@ -1,7 +1,8 @@
 import React from 'react';
+import { StyledInfo } from './styles/StyledInfo';
 
 const Display = ({ gameOver, text }) => (
-  <div>{text}</div>
-)
+  <StyledInfo gameOver={gameOver}>{text}</StyledInfo>
+);
 
 export default Display;
