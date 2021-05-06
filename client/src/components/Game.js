@@ -9,15 +9,16 @@ const Game = () => {
   return (
     <StyledGameComponent>
       <StyledGame>
-        <Matrix matrix={createMatrix()} />
         <aside>
           <div>
+            <Display text="HOLD" />
             <Display text="SCORE" />
             <Display text="ROWS" />
             <Display text="LEVEL" />
           </div>
           <Start />
         </aside>
+        <Matrix matrix={createMatrix()} />
       </StyledGame>
     </StyledGameComponent>
   );
