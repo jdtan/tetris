@@ -1,22 +1,26 @@
 import React from 'react';
 import Display from './Display';
 import Start from './Start';
-import Matrix from "./Matrix";
+import Matrix from './Matrix';
 import { createMatrix } from '../Structure';
+import { StyledGameComponent, StyledGame } from './styles/StyledGame';
 
 const Game = () => {
   return (
-    <div>
-      <Matrix matrix = { createMatrix() } />
-      <aside>
-        <div>
-          <Display text = "Score" />
-          <Display text = "Rows" />
-          <Display text = "Level" />
-        </div>
-        <Start />
-      </aside>
-    </div>
+    <StyledGameComponent>
+      <StyledGame>
+        <aside>
+          <div>
+            <Display text="HOLD" />
+            <Display text="SCORE" />
+            <Display text="ROWS" />
+            <Display text="LEVEL" />
+          </div>
+          <Start />
+        </aside>
+        <Matrix matrix={createMatrix()} />
+      </StyledGame>
+    </StyledGameComponent>
   );
 };
 
