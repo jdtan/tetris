@@ -1,11 +1,10 @@
 import './App.css';
-import TestCell from './components/TestCell';
+import Game from './components/Game';
 
 function App() {
   return (
     <div className="App">
-      <div>Tetris App</div>
-      <TestCell></TestCell>
+      <Game />
     </div>
   );
 }
