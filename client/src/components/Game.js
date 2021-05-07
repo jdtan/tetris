@@ -75,7 +75,7 @@ const Game = () => {
               <Display text="LEVEL" />
             </div>
           )}
-          <Start onClick={ startGame } />
+          <Start callback={ startGame } />
         </aside>
 
       </StyledGame>

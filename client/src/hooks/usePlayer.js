@@ -1,6 +1,6 @@
 import { useState, useCallback } from 'react';
 
-import { generateTetromino } from '../Tetromino';
+import { generateTetromino, TETROMINO } from '../Tetromino';
 import { MATRIX_WIDTH } from '../Structure';
 
 // Returns a player object with initial position and
@@ -8,7 +8,7 @@ import { MATRIX_WIDTH } from '../Structure';
 export const usePlayer = () => {
   const [player, setPlayer] = useState({
     pos: { x: 0, y: 0 },
-    tetromino: generateTetromino().shape,
+    tetromino: TETROMINO[0].shape,
     collided: false,
   });
 
@@ -34,9 +34,6 @@ export const usePlayer = () => {
     })
   }, [])
 
-  // const resetPlayer = () => {
-  //
-  // }
 
   return [player, updatePlayerPos, resetPlayer];
 };
