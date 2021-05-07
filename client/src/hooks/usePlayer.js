@@ -34,5 +34,9 @@ export const usePlayer = () => {
     })
   }, [])
 
+  // const resetPlayer = () => {
+  //
+  // }
+
   return [player, updatePlayerPos, resetPlayer];
 };

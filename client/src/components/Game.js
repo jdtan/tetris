@@ -24,9 +24,9 @@ const Game = () => {
     })
   }
 
-  const startGame =() => {
+  const startGame = () => {
     // reset
-    setMatrix(createMatrix())
+    setMatrix(createMatrix());
     resetPlayer();
   }
 
@@ -63,9 +63,10 @@ const Game = () => {
       onKeyDown={e => move(e)}
     >
       <StyledGame>
+        <Matrix matrix={matrix} />
         <aside>
           {gameOver ? (
-            <Display gmaeOver={gameOver} text="Game Over" />
+            <Display gameOver={gameOver} text="Game Over" />
           ) : (
             <div>
               <Display text="HOLD" />
@@ -74,9 +75,9 @@ const Game = () => {
               <Display text="LEVEL" />
             </div>
           )}
-          <Start onClick={ startGame() } />
+          <Start onClick={ startGame } />
         </aside>
-        <Matrix matrix={matrix} />
+
       </StyledGame>
     </StyledGameComponent>
   );
