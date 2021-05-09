@@ -14,15 +14,59 @@ const Game = () => {
   const [gameOver, setGameOver] = useState(false);
 
   // Player Object
-  const [player] = usePlayer();
-  const [matrix, setMatrix] = useMatrix(player);
+  const [player, updatePlayerPos, resetPlayer] = usePlayer();
+  const [matrix, setMatrix] = useMatrix(player, resetPlayer);
+
+  const movePlayer = dir => {
+    updatePlayerPos({
+      x: dir,
+      y: 0
+    })
+  }
+
+  const startGame = () => {
+    // reset
+    setMatrix(createMatrix());
+    resetPlayer();
+  }
+
+  const drop = () => {
+    updatePlayerPos({
+      x: 0,
+      y: 1,
+      collided: false
+    })
+  }
+
+  const dropPlayer = () => {
+    drop();
+  }
+
+  const move = ({ keyCode }) => {
+    if (!gameOver) {
+      if (keyCode === 37) { // left arrow
+        movePlayer(-1);
+      }
+      else if (keyCode === 39) { // right arrow
+        movePlayer(1);
+      }
+      else if (keyCode === 40) { // down arrow
+        dropPlayer();
+      }
+    }
+  }
 
   return (
-    <StyledGameComponent>
+    <StyledGameComponent
+      role="button"
+      tabIndex="0"
+      onKeyDown={e => move(e)}
+    >
       <StyledGame>
+        <Matrix matrix={matrix} />
         <aside>
           {gameOver ? (
-            <Display gmaeOver={gameOver} text="Game Over" />
+            <Display gameOver={gameOver} text="Game Over" />
           ) : (
             <div>
               <Display text="HOLD" />
@@ -31,9 +75,9 @@ const Game = () => {
               <Display text="LEVEL" />
             </div>
           )}
-          <Start />
+          <Start callback={ startGame } />
         </aside>
-        <Matrix matrix={matrix} />
+
       </StyledGame>
     </StyledGameComponent>
   );
