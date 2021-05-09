@@ -20,10 +20,15 @@ export const useMatrix = (player, resetPlayer) => {
           }
         });
       });
+      // check for collision
+      if (player.collided) {
+        resetPlayer();
+      }
+
       return newMatrix;
     };
     setMatrix(prev => updateMatrix(prev))
-  }, [player]);
+  }, [player, resetPlayer]);
 
   return [matrix, setMatrix];
 };
