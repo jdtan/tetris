@@ -6,7 +6,7 @@ export const useMatrix = (player, resetPlayer) => {
   const [rowsCleared, setRowsCleared] = useState(0);
 
   useEffect(() => {
-    setRowsCleared = 0;
+    setRowsCleared(0);
 
     const sweepRows = newMatrix =>
       newMatrix.reduce((ack, row) => {
