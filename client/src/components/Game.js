@@ -9,6 +9,7 @@ import { StyledGameComponent, StyledGame } from './styles/StyledGame';
 import { useInterval } from '../hooks/useInterval';
 import { usePlayer } from '../hooks/usePlayer';
 import { useMatrix } from '../hooks/useMatrix';
+import { useGameStatus } from '../hooks/useGameStatus';
 
 const Game = () => {
   const [dropTime, setDropTime] = useState(null);
@@ -16,7 +17,10 @@ const Game = () => {
 
   // Player Object
   const [player, updatePlayerPos, resetPlayer, playerRotate] = usePlayer();
-  const [matrix, setMatrix] = useMatrix(player, resetPlayer);
+  const [matrix, setMatrix, rowsCleared] = useMatrix(player, resetPlayer);
+  const [score, setScore, rows, setRows, level, setLevel] = useGameStatus(
+    rowsCleared
+  );
 
   const movePlayer = (dir) => {
     if (!checkCollision(player, matrix, { x: dir, y: 0 })) {
@@ -34,9 +38,18 @@ const Game = () => {
     setDropTime(1000);
     resetPlayer();
     setGameOver(false);
+    setScore(0);
+    setLevel(0);
   };
 
   const drop = () => {
+    // Increase level when player has cleared 10 rows
+    if (rows > (level + 1) * 10) {
+      setLevel((prev) => prev + 1);
+      // Also increase speed
+      // Experimental
+      setDropTime(1000 / (level + 1) + 200);
+    }
     if (!checkCollision(player, matrix, { x: 0, y: 1 })) {
       updatePlayerPos({
         x: 0,
@@ -55,7 +68,7 @@ const Game = () => {
   const keyUp = ({ keyCode }) => {
     if (!gameOver) {
       if (keyCode === 40) {
-        setDropTime(1000);
+        setDropTime(1000 / (level + 1) + 200);
       }
     }
   };
@@ -102,9 +115,9 @@ const Game = () => {
           ) : (
             <div>
               <Display text="HOLD" />
-              <Display text="SCORE" />
-              <Display text="ROWS" />
-              <Display text="LEVEL" />
+              <Display text={`SCORE: ${score}`} />
+              <Display text={`ROWS: ${rows}`} />
+              <Display text={`LEVEL: ${level}`} />
             </div>
           )}
           <Start callback={startGame} />
