@@ -37,6 +37,7 @@ export const useMatrix = (player, resetPlayer) => {
       // check for collision
       if (player.collided) {
         resetPlayer();
+        return sweepRows(newMatrix);
       }
 
       return newMatrix;
@@ -44,5 +45,5 @@ export const useMatrix = (player, resetPlayer) => {
     setMatrix(prev => updateMatrix(prev))
   }, [player, resetPlayer]);
 
-  return [matrix, setMatrix];
+  return [matrix, setMatrix, rowsCleared];
 };
