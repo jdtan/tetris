@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import Display from './Display';
 import Start from './Start';
 import Matrix from './Matrix';
-import { createMatrix } from '../Structure';
+import { createMatrix, checkCollision } from '../Structure';
 import { StyledGameComponent, StyledGame } from './styles/StyledGame';
 
 // Custom hooks
@@ -14,28 +14,40 @@ const Game = () => {
   const [gameOver, setGameOver] = useState(false);
 
   // Player Object
-  const [player, updatePlayerPos, resetPlayer] = usePlayer();
+  const [player, updatePlayerPos, resetPlayer, playerRotate] = usePlayer();
   const [matrix, setMatrix] = useMatrix(player, resetPlayer);
 
   const movePlayer = dir => {
-    updatePlayerPos({
-      x: dir,
-      y: 0
-    })
+    if (!checkCollision(player, matrix, {x:dir, y:0})) {
+      updatePlayerPos({
+        x: dir,
+        y: 0
+      });
+    }
   }
 
   const startGame = () => {
     // reset
     setMatrix(createMatrix());
     resetPlayer();
+    setGameOver(false)
   }
 
   const drop = () => {
-    updatePlayerPos({
-      x: 0,
-      y: 1,
-      collided: false
-    })
+    if (!checkCollision(player, matrix, {x: 0, y: 1})) {
+      updatePlayerPos({
+        x: 0,
+        y: 1,
+        collided: false
+      })      
+    }
+    else {
+      if (player.pos.y < 1) {
+        setGameOver(true);
+        setDropTime(null);
+      }
+      updatePlayerPos({x:0, y:0, collided: true});
+    }
   }
 
   const dropPlayer = () => {
@@ -52,6 +64,8 @@ const Game = () => {
       }
       else if (keyCode === 40) { // down arrow
         dropPlayer();
+      } else if (keyCode === 38) { // up arrow (rotate)
+        playerRotate(matrix, 1);
       }
     }
   }
