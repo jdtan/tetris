@@ -6,6 +6,7 @@ import { createMatrix, checkCollision } from '../Structure';
 import { StyledGameComponent, StyledGame } from './styles/StyledGame';
 
 // Custom hooks
+import { useInterval } from '../hooks/useInterval';
 import { usePlayer } from '../hooks/usePlayer';
 import { useMatrix } from '../hooks/useMatrix';
 
@@ -17,64 +18,81 @@ const Game = () => {
   const [player, updatePlayerPos, resetPlayer, playerRotate] = usePlayer();
   const [matrix, setMatrix] = useMatrix(player, resetPlayer);
 
-  const movePlayer = dir => {
-    if (!checkCollision(player, matrix, {x:dir, y:0})) {
+  const movePlayer = (dir) => {
+    if (!checkCollision(player, matrix, { x: dir, y: 0 })) {
       updatePlayerPos({
         x: dir,
-        y: 0
+        y: 0,
       });
     }
-  }
+  };
 
   const startGame = () => {
     // reset
     setMatrix(createMatrix());
+    // Timer for drop interval (Lower the value for higher level)
+    setDropTime(1000);
     resetPlayer();
-    setGameOver(false)
-  }
+    setGameOver(false);
+  };
 
   const drop = () => {
-    if (!checkCollision(player, matrix, {x: 0, y: 1})) {
+    if (!checkCollision(player, matrix, { x: 0, y: 1 })) {
       updatePlayerPos({
         x: 0,
         y: 1,
-        collided: false
-      })      
-    }
-    else {
+        collided: false,
+      });
+    } else {
       if (player.pos.y < 1) {
         setGameOver(true);
         setDropTime(null);
       }
-      updatePlayerPos({x:0, y:0, collided: true});
+      updatePlayerPos({ x: 0, y: 0, collided: true });
     }
-  }
+  };
+
+  const keyUp = ({ keyCode }) => {
+    if (!gameOver) {
+      if (keyCode === 40) {
+        setDropTime(1000);
+      }
+    }
+  };
 
   const dropPlayer = () => {
+    setDropTime(null);
     drop();
-  }
+  };
 
   const move = ({ keyCode }) => {
     if (!gameOver) {
-      if (keyCode === 37) { // left arrow
+      if (keyCode === 37) {
+        // left arrow
         movePlayer(-1);
-      }
-      else if (keyCode === 39) { // right arrow
+      } else if (keyCode === 39) {
+        // right arrow
         movePlayer(1);
-      }
-      else if (keyCode === 40) { // down arrow
+      } else if (keyCode === 40) {
+        // down arrow
         dropPlayer();
-      } else if (keyCode === 38) { // up arrow (rotate)
+      } else if (keyCode === 38) {
+        // up arrow (rotate)
         playerRotate(matrix, 1);
       }
     }
-  }
+  };
+
+  useInterval(() => {
+    drop();
+  }, dropTime);
 
   return (
     <StyledGameComponent
       role="button"
       tabIndex="0"
-      onKeyDown={e => move(e)}
+      onKeyDown={(e) => move(e)}
+      onKeyUp={keyUp}
     >
       <StyledGame>
         <Matrix matrix={matrix} />
@@ -89,9 +107,8 @@ const Game = () => {
               <Display text="LEVEL" />
             </div>
           )}
-          <Start callback={ startGame } />
+          <Start callback={startGame} />
         </aside>
-
       </StyledGame>
     </StyledGameComponent>
   );
