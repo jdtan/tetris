@@ -52,6 +52,13 @@ const Game = () => {
     }
   };
 
+  const hardDrop = () => {
+    while (!checkCollision(player, matrix, { x: 0, y: 1 })) {
+      player.pos.y++;
+    }
+    updatePlayerPos({ x: 0, y: 0, collided: true });
+  }
+
   const keyUp = ({ keyCode }) => {
     if (!gameOver) {
       if (keyCode === 40) {
@@ -79,6 +86,10 @@ const Game = () => {
       } else if (keyCode === 38) {
         // up arrow (rotate)
         playerRotate(matrix, 1);
+      }
+      else if (keyCode === 32) {
+        // space (hard drop)
+        hardDrop();
       }
     }
   };
